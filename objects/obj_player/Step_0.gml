@@ -39,7 +39,7 @@ else // se não estou no chão
 #endregion
 
 #region colisão
-	var _col = instance_place(x + hspd, y, obj_parede);
+	var _col = place_meeting(x + hspd, y, obj_parede);
 	// se colidir grudo em quem colidir
 	if (_col)
 	{
@@ -58,9 +58,10 @@ else // se não estou no chão
 		hspd = 0;
 	}
 	
-	var _col = instance_place(x, y + vspd, obj_parede);
+	var _col = place_meeting(x, y + vspd, obj_parede);
 	if (_col)
 	{
+
 		// checando se estou indo para a baixo
 		if(vspd > 0){
 			y = _col.bbox_top +(y - bbox_bottom);
@@ -70,13 +71,33 @@ else // se não estou no chão
 		if(vspd < 0){
 			y = _col.bbox_bottom + (y - bbox_top);
 		}
+
 		//se eu colidir não importando o lado eu paro
 		vspd = 0;
+	}
+	// colisão porta
+	var _col_door = place_meeting(x + hspd,y,obj_porta)
+	if(_col_door)
+	{
+		if(!global.porta_aberta)
+		{
+			hspd = 0;
+		}
+	}
+	var _col_door = place_meeting(x,y+vspd, obj_porta)
+	if(_col_door)
+	{
+		if(!global.porta_aberta)
+		{
+			vspd = 0;
+		}
 	}
 	// aplicando a velocidade horizontal
 	x +=  hspd;
 	// aplicando a velocidade vertical
 	y += vspd;
+	
+	
 #endregion
 
 
