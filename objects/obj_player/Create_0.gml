@@ -7,8 +7,8 @@ grv = 0.45; // gravidade
 vel_jump = 12; // força do pulo
 
 
-image_blend = make_color_rgb(30,30,200)
-
+image_xscale = 2;
+image_yscale = 2;
 
 
 

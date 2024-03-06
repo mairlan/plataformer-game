@@ -21,6 +21,14 @@ if(_chao) // se esta no chao
 	{
 		vspd -= vel_jump;
 	}
+	//se estou no chao e me movendo mude a sprite e mudo minha direção
+	if(hspd != 0 ){
+		sprite_index = spr_player_walking;
+		//olha pra onde to indo
+		image_xscale = sign(hspd) * 2;
+	}else {
+		sprite_index = spr_player;
+	}
 }
 else // se não estou no chão
 {
@@ -43,6 +51,7 @@ else // se não estou no chão
 	// se colidir grudo em quem colidir
 	if (_col)
 	{
+		/*
 		// checando se estou indo para a direita
 		if(hspd > 0){
 			// grudando na parte esquerda
@@ -54,6 +63,7 @@ else // se não estou no chão
 			x = _col.bbox_right + (x - bbox_left);
 
 		}
+		*/
 		//se eu colidir não importando o lado eu paro
 		hspd = 0;
 	}
@@ -61,7 +71,7 @@ else // se não estou no chão
 	var _col = place_meeting(x, y + vspd, obj_parede);
 	if (_col)
 	{
-
+		/*
 		// checando se estou indo para a baixo
 		if(vspd > 0){
 			y = _col.bbox_top +(y - bbox_bottom);
@@ -71,7 +81,7 @@ else // se não estou no chão
 		if(vspd < 0){
 			y = _col.bbox_bottom + (y - bbox_top);
 		}
-
+		*/
 		//se eu colidir não importando o lado eu paro
 		vspd = 0;
 	}
