@@ -20,6 +20,7 @@ if(_chao) // se esta no chao
 	if(jump) // se apertou para pular
 	{
 		vspd -= vel_jump;
+
 	}
 	//se estou no chao e me movendo mude a sprite e mudo minha direção
 	if(hspd != 0 ){
@@ -32,6 +33,7 @@ if(_chao) // se esta no chao
 }
 else // se não estou no chão
 {
+
 	if(dash && (left or right)) // SE esta apertando o dash e a esquerda ou direita
 	{
 		// criando os rastros do player quando da o dash
@@ -45,6 +47,8 @@ else // se não estou no chão
 	vspd += grv; // aplicando a gravidade
 }
 #endregion
+
+image_yscale = lerp(image_yscale, escala_inicial_y, 0.1);
 
 #region colisão
 	var _col = place_meeting(x + hspd, y, obj_parede);

@@ -2,9 +2,9 @@
 // Você pode escrever seu código neste editor
 
 
-image_alpha -= 0.1;
+image_alpha -= 0.2;
 
-if(image_alpha < 0)
+if(image_alpha < 0.01)
 {
 	instance_destroy();
 }

@@ -10,6 +10,7 @@ vel_jump = 12; // força do pulo
 image_xscale = 2;
 image_yscale = 2;
 
-
+escala_inicial_x = image_xscale;
+escala_inicial_y = image_yscale;
 
 
