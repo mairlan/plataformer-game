@@ -1,6 +1,6 @@
 /// @description Inserir descrição aqui
-// Você pode escrever seu código neste editor
-spd = 4; // velocidade
+
+spd = 5.2; // velocidade
 hspd = 0; // velocidade horizontal
 vspd = 3; // velocidade vertical
 grv = 0.45; // gravidade
