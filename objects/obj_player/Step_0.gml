@@ -1,4 +1,4 @@
-/// @description Insert description here
+ /// @description Insert description here
 // You can write your code in this editor
 
 #region controles
@@ -9,6 +9,7 @@ left = keyboard_check(ord("A")); // anda para a esquerda
 right = keyboard_check(ord("D")); // anda para a direita
 jump = keyboard_check_pressed(vk_space); // pula
 dash = keyboard_check(vk_shift); // dash
+down = keyboard_check(ord("S")); // Descer
 
 hspd = (right - left) * spd; // definindo para onde andar (esquerda ou direita)
 
@@ -45,6 +46,11 @@ else // se não estou no chão
 		}
 	}
 	vspd += grv; // aplicando a gravidade
+	if (down){
+		grv += 0.22;
+	} else {
+		grv=0.45;
+	}
 }
 #endregion
 
