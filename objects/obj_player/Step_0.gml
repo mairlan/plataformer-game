@@ -16,12 +16,12 @@ hspd = (right - left) * spd; // definindo para onde andar (esquerda ou direita)
 #endregion
 
 #region SE esta no chao ou não
+
 if(_chao) // se esta no chao
 {
 	if(jump) // se apertou para pular
 	{
 		vspd -= vel_jump;
-
 	}
 	//se estou no chao e me movendo mude a sprite e mudo minha direção
 	if(hspd != 0 ){
@@ -34,7 +34,6 @@ if(_chao) // se esta no chao
 }
 else // se não estou no chão
 {
-
 	if(dash && (left or right)) // SE esta apertando o dash e a esquerda ou direita
 	{
 		// criando os rastros do player quando da o dash
@@ -46,13 +45,20 @@ else // se não estou no chão
 		}
 	}
 	vspd += grv; // aplicando a gravidade
+	// quando apertar "S" aumenta a gravidade
 	if (down){
 		grv += 0.22;
 	} else {
 		grv=0.45;
 	}
+
+
 }
+
+
+
 #endregion
+
 
 image_yscale = lerp(image_yscale, escala_inicial_y, 0.1);
 
