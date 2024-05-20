@@ -5,7 +5,7 @@
 var left, right, jump, dash;
 
 var _chao = place_meeting(x,y+1, obj_parede); // colisão com o chão
-var _walljump = place_meeting(x+hspd, y, obj_walljump); // direita
+var _walljump = place_meeting(x-5, y, obj_walljump) - place_meeting(x+5, y, obj_walljump); // direita
 
 left = keyboard_check(ord("A")); // anda para a esquerda
 right = keyboard_check(ord("D")); // anda para a direita
@@ -13,30 +13,48 @@ jump = keyboard_check_pressed(vk_space); // pula
 dash = keyboard_check(vk_shift); // dash
 down = keyboard_check(ord("S")); // Descer
 
-hspd = (right - left) * spd; // definindo para onde andar (esquerda ou direita)
+mvtLocked = max(mvtLocked - 1, 0);
+
+// aplicando a velocidade horizontal
+x +=  hspd;
+// aplicando a velocidade vertical
+y += vspd;
+
+
+xdirection = right - left;
+
+hspd = xdirection * spd; // definindo para onde andar (esquerda ou direita)
+
+if(_walljump !=0) {
+	vspd = min(vspd + 1, 5)
+}else {
+	vspd++;
+}
+
+
+if(jump){
+	if(_chao){
+		vspd = -vel_jump;
+	}
+	if(_walljump != 0){
+		vspd = -vel_jump;
+		hspd = _walljump * vel_jump;
+		mvtLocked = 10;
+	}
+}
+
 
 #endregion
 
 #region SE esta no chao ou não
 if(_chao) // se esta no chao
 {
-	if(jump) // se apertou para pular
-	{
-		vspd -= vel_jump;
-
-	}
-	//se estou no chao e me movendo mude a sprite e mudo minha direção
-	if(hspd != 0 ){
-		sprite_index = spr_player_walking;
-		//olha pra onde to indo
-		image_xscale = sign(hspd) * 2;
-	}else {
-		sprite_index = spr_player;
-	}
+	pode_pular = true;
 }
 else // se não estou no chão
 {
-
+	vspd ++; // aplicando a gravidade
+	pode_pular = false;
 	if(dash && (left or right)) // SE esta apertando o dash e a esquerda ou direita
 	{
 		// criando os rastros do player quando da o dash
@@ -47,23 +65,12 @@ else // se não estou no chão
 			hspd -=10.5;
 		}
 	}
-	vspd += grv; // aplicando a gravidade
 	if (down){
 		grv += 0.22;
 	} else {
 		grv=0.45;
 	}
-	if(_walljump){
-		hspd = 0;
-		grv = 0.02;
-			if(jump) // se apertou para pular
-			{
-				vspd -= vel_jump;
-
-			}			
-	}
 }
-
 
 
 #endregion
@@ -71,11 +78,10 @@ else // se não estou no chão
 image_yscale = lerp(image_yscale, escala_inicial_y, 0.1);
 
 #region colisão
-	var _col = place_meeting(x + hspd, y, obj_parede);
-	// se colidir grudo em quem colidir
+	var _col = place_meeting(x - 2, y, obj_parede);
+	// colisão com o obj_parede
 	if (_col)
 	{
-
 		//se eu colidir não importando o lado eu paro
 		hspd = 0;
 	}
@@ -83,7 +89,6 @@ image_yscale = lerp(image_yscale, escala_inicial_y, 0.1);
 	var _col = place_meeting(x, y + vspd, obj_parede);
 	if (_col)
 	{
-
 		//se eu colidir não importando o lado eu paro
 		vspd = 0;
 	}
@@ -106,11 +111,7 @@ image_yscale = lerp(image_yscale, escala_inicial_y, 0.1);
 			vspd = 0;
 		}
 	}
-	// aplicando a velocidade horizontal
-	x +=  hspd;
-	// aplicando a velocidade vertical
-	y += vspd;
-	
+
 
 	
 	
@@ -118,7 +119,9 @@ image_yscale = lerp(image_yscale, escala_inicial_y, 0.1);
 
 
 
-
+if(y > room_height){
+	game_restart()
+}
 
 
 

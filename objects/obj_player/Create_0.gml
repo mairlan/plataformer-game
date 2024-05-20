@@ -2,10 +2,12 @@
 
 spd = 5.2; // velocidade
 hspd = 0; // velocidade horizontal
-vspd = 3; // velocidade vertical
-grv = 0.45; // gravidade
-vel_jump = 12; // força do pulo
+vspd = 0; // velocidade vertical
+mvtLocked = 0;
 
+vel_jump = 10; // força do pulo
+pode_pular = true;
+walljump_direction = 1
 
 image_xscale = 2;
 image_yscale = 2;
