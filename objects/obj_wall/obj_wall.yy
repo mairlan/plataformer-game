@@ -1,10 +1,10 @@
 {
   "resourceType": "GMObject",
   "resourceVersion": "1.0",
-  "name": "obj_ledge",
+  "name": "obj_wall",
   "spriteId": {
-    "name": "spr_parede_serra",
-    "path": "sprites/spr_parede_serra/spr_parede_serra.yy",
+    "name": "spr_ground",
+    "path": "sprites/spr_ground/spr_ground.yy",
   },
   "solid": true,
   "visible": true,
