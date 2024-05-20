@@ -1,8 +1,8 @@
 /// @description Inserir descrição aqui
 
 spd = 5.2; // velocidade
-hspd = 0; // velocidade horizontal
-vspd = 0; // velocidade vertical
+xSpeed = 0; // velocidade horizontal
+ySpeed = 0; // velocidade vertical
 mvtLocked = 0;
 
 vel_jump = 10; // força do pulo

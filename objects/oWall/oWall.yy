@@ -1,7 +1,7 @@
 {
   "resourceType": "GMObject",
   "resourceVersion": "1.0",
-  "name": "obj_walljump",
+  "name": "oWall",
   "spriteId": {
     "name": "spr_walljump",
     "path": "sprites/spr_walljump/spr_walljump.yy",
