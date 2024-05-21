@@ -1,133 +1,250 @@
- /// @description Insert description here
-// You can write your code in this editor
+/// @description Inserir descrição aqui
+// Você pode escrever seu código neste editor
 
-#region controles
-	var left = keyboard_check(ord("A"));
-	var right = keyboard_check(ord("D"));
-	var down = keyboard_check(ord("S"));
-	var xDirection = right - left; // define a direção no X, retorna os valores(-1, 0, 1)
-	var jump = keyboard_check_pressed(vk_space); // pula, retorna os valores(1 ou 0)
-	var onTheGround = place_meeting(x, y + 1, obj_ground); // 
-	var onAWall = place_meeting(x-5, y, obj_jump_wall) - place_meeting(x+5, y, obj_jump_wall); // 
-	var onTheGround_Y = place_meeting(x-5, y, obj_ground) + place_meeting(x+5, y, obj_ground); //retorna os valores 1 e 0, 0 para quando não estiver colidindo e 1 para quando estiver 
-	var dash = keyboard_check(vk_shift);
-	show_debug_message(onAWall);
-#endregion
-
-//proibe o jogador de mudar de direção 
-mvtLocked = max(mvtLocked - 1, 0); // a função max retorna o maior valor dos colocado entre ()
+// chacando se estou tocando no chao
+chao = place_meeting(x, y+1, obj_ground)
+parede_dir = place_meeting(x+1, y, obj_jump_wall);
+parede_esq = place_meeting(x-1, y, obj_jump_wall);
 
 
-if (onAWall != 0) { //quando a variavel onAWall retornar um valor diferente de 0, ou seja,quando estiver encostando no obj_jump_wall
-	ySpeed = min(ySpeed + 1, 5); // ira diminuir a velocidade de queda
-}	
-else { // se não 
-	ySpeed += 0.6; // irá definir a gravidade para o valor normal
-	// ir para baixo mais rapido
-	if (down){
-		 ySpeed += 8; 
-    } else {
-        ySpeed += .6;
-    }
+// configurando o meu timer do pulo
+if(chao) 
+{
+	carga = 1;
+	timer_pulo = limite_pulo;	
+}else 
+{
+	if(timer_pulo > 0) timer_pulo--; 
 }
 
-if (mvtLocked <= 0) { // se a variavel mvtLocked for menor ou igual a 0
-    xSpeed = xDirection * spd; // vai poder mudar a direção do player
-	// e vai poder executar o seguinte if
-    if (jump) { // se a variavel jump retornar 1, ou seja, quando espaço ou outra tecla for apertada
-        // e vai poder executar os seguintes ifs
-		if (onTheGround) { // se a variavel onTheGround estiver retornando 1, ou seja, o player estiver colidindo com a parte superior do obj_ground
-            ySpeed = -15; // vai definir o valor da variavel ySpeed como -15
-        } 
-        if (onAWall != 0) { // se o valor retornado da variavel onAWall for diferente de 0
-            ySpeed = -15; // vai definir o valor da variavel ySpeed como -15
-            xSpeed = onAWall * spd; // dependendo do lado da parede em que estiver pular para o lado oposto
-            mvtLocked = 10; // define a variavel mvtLocked = 10, ou seja, trava a movimentação por um periodo
-        }
-    }
+if(parede_dir or parede_esq)
+{
+	if(parede_dir ) ultima_parede = 0
+	else ultima_parede = 1;
+	timer_parede = limite_parede;
+}else
+{
+	if(timer_parede > 0) limite_parede--;
 }
- 		if(onTheGround_Y){ 
-			xSpeed = 0;
-			if(!onTheGround){
-				ySpeed++
-			}
+
+
+
+var left, right, up, down, jump, jump_s, avanco_h, dash;
+
+left = keyboard_check(ord("A"));
+right = keyboard_check(ord("D"));
+up = keyboard_check(ord("W"));
+down = keyboard_check(ord("S"));
+jump = keyboard_check_pressed(ord("W"));
+jump_s = keyboard_check_released(ord("W"));
+dash = keyboard_check_pressed(vk_shift);
+
+
+// configurando informações da movimentação
+avanco_h = (right - left) * max_velh;
+// valor da aceleração
+if(chao) acel = acel_chao;
+else acel = acel_ar;
+
+//--------------------------------STATE MACHINE ------------------
+switch(estado)
+{
+	case state.parado:
+		velh = 0;
+		velv = 0;
+		
+		// posso mudar minha velocidade
+		
+		//pulando
+		if(jump && chao){
+			velv = -max_velv;
 		}
-
- // pulo na parede
-if (place_meeting(x + xSpeed, y, obj_jump_wall)) { 
-    
-    while (!place_meeting(x + sign(xSpeed), y, obj_jump_wall)) {
-        x += sign(xSpeed);
-    }
-    xSpeed = 0;
-}
- 
-if (place_meeting(x, y + ySpeed, obj_jump_wall)) { 
-    
-    while (!place_meeting(x , y + sign(ySpeed), obj_jump_wall)) {
-        y += sign(ySpeed);
-    }
-    ySpeed = 0;
-}
- 
- 
- 
- // chao
-if (place_meeting(x, y + ySpeed, obj_ground)) { 
-    
-    while (!place_meeting(x, y + sign(ySpeed), obj_ground)) {
-        y += sign(ySpeed);
-    }
-    
-    ySpeed = 0; 
-}
-
- if (place_meeting(x + xSpeed, y, obj_ground)) { 
-    
-    while (!place_meeting(x + sign(xSpeed), y, obj_ground)) {
-        x += sign(xSpeed);
-    }
-    xSpeed = 0.2;
-}
-
-/*
-	var _col = place_meeting(x + xSpeed, y, obj_ground);
-	// se colidir grudo em quem colidir
-	if (_col)
-	{
-		//se eu colidir não importando o lado eu paro
-		xSpeed = 0;
-	}
-	*/
-if(y > room_height){
-	game_restart()
-}
-
-
-#region codigos anteriores para arrumar
-
-if(dash && (left or right)) // SE esta apertando o dash e a esquerda ou direita
-	{
-
-		if(!onTheGround) {
-			instance_create_layer(x,y,"player",obj_player_rastro);// criando os rastros do player quando da o dash
-			if(sign(xDirection)){ 
-				xSpeed +=10.5;
-				show_debug_message("passou")
-			}else {
-				xSpeed -=10.5;
-			}
+		
+		//Aplicando a gravidade tambem
+		if(!chao) velv += grav
+		
+		
+		//Saindo do estado
+		//movendo
+		if(abs(velh) > 0 or abs(velv) > 0 or left or right or jump){
+			estado = state.movendo;
 		}
-	}
+		
+		// DASH
+		if(dash && carga > 0)
+		{
+			//Decidindo a direção
+			dir = point_direction(0,0,(right-left),(down - up));
+			
+			
+			estado = state.dash;
+			carga = 0;
+		}	
+		
+		break;
+		
+	case state.movendo:
+		
+		//Aplicando a movimentação
+		velh = lerp(velh, avanco_h, acel);
+		
+		
+		// gravidade e parede
+		if(!chao && (parede_dir or parede_esq or timer_parede))
+		{
+			// não estou no chao, mas estou tocando na parede
+			if(velh > 0) //estou na parede e estou caindo
+			{
+				velv = lerp(velv, deslize, acel);
+			}else
+			{
+				//Estou subindo
+				velv += grav;
+			}
+			
+			// pulando pelas paredes
+			if(!ultima_parede && jump ) //Estou na parede e tentei pular
+			{
+				velv = -max_velv 
+				velh = -max_velh
+				xscale = .5;
+				yscale = 1.5;
+				carga = 1;
+			}else if (ultima_parede && jump)
+			{
+				velv = -max_velv 
+				velh = max_velh
+				xscale = .5;
+				yscale = 1.5;
+				carga = 1;
+				
+			}
+		}else if (!chao) // não estou no chao nem na parede
+		{
+			//
+			velv += grav;
+		}
+		
+		
+		//pulando
+		if(jump && (chao or timer_pulo > 0)) 
+		{
+			velv = -max_velv;
+			
+			//alterando a escala
+			xscale = .5;
+			yscale = 1.5;
+		}
+		
+		//buffer pulo
+		if(jump) timer_queda = limite_buffer;
+		
+		if(timer_queda > 0) buffer_pulo = true;
+		else buffer_pulo = false;
+		
+		if(buffer_pulo) // Eu posso pular
+		{
+			if(chao or timer_pulo) // as demais condições para o pulo são verdadeiras também
+			{
+				velv = -max_velv;
+				//alterando a escala
+				xscale = .5;
+				yscale = 1.5;
+				
+				timer_pulo = 0;
+				timer_queda = 0;
+			}
+			timer_queda--;
+			
+		}
+		
+		// Controlando a altura do pulo
+		if(jump_s && velv < 0) velv *= .7;
+		
+		//Dash
+		if(dash && carga > 0)
+		{
+			//Decidindo a direção
+			dir = point_direction(0,0,(right-left),(down - up));
+			
+			
+			estado = state.dash;
+			carga = 0;
+		}		
+		
+		// limitando as velocidades
+		velv = clamp(velv, -max_velv, max_velv)		
+		
+		break;
+	case state.dash:
+
+		dura--
+		
+		velh = lengthdir_x(len, dir);
+		velv = lengthdir_y(len, dir)
+		
+		//Deformando o player
+		if(dir == 90 or dir == 270)
+		{
+			yscale = 1.5;
+			xscale = .5;
+		}else
+		{
+			yscale = .5;
+			xscale = 1.6;
+		}
+		
+		
+		
+		//criando o rastro
+		var rastro = instance_create_layer(x,y, layer, obj_player_rastro)
+		rastro.xscale = xscale;
+		rastro.yscale = yscale;
+		
+		
+		
+		
+		
+		//Saindo do estado
+		if(dura <= 0)
+		{
+			estado = state.movendo;
+			dura = room_speed/4;
+			
+			//Diminuindo a velocidade
+			velh = (max_velh * sign(velh) * .5);
+			velv = (max_velv * sign(velv) * .5);
+			
+		}
 	
-y += ySpeed; // adiciona constantemente o valor armazenado na variavel ySpeed ao y, criando a 'gravidade'
-x += xSpeed; // adiciona constantemente o valor armazenado na variavel xSpeed ao x
+	
+		break;
+}
+
+// debug do estado
+show_debug_message(estado);
+
+switch (carga)
+{
+	case 0:
+		sat = lerp(sat, 50, .05);
+		break;
+	case 1:
+		sat = lerp(sat, 255, .05);
+		break;	
+}
+
+// definindo a cor dele
+image_blend = make_color_hsv(20, sat, 255);
+
+
+// voltando para a escala original
+xscale = lerp(xscale, 1, .15);
+yscale = lerp(yscale, 1, .15);
 
 
 
 
-
-#endregion
 
 
 
