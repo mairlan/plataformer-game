@@ -23,7 +23,12 @@ if (onAWall != 0) { //quando a variavel onAWall retornar um valor diferente de 0
 }	
 else { // se não 
 	ySpeed += 0.6; // irá definir a gravidade para o valor normal
-	
+	// ir para baixo mais rapido
+	if (down){
+		 ySpeed += 8; 
+    } else {
+        ySpeed += .6;
+    }
 }
 
 if (mvtLocked <= 0) { // se a variavel mvtLocked for menor ou igual a 0
@@ -76,16 +81,24 @@ if (place_meeting(x, y + ySpeed, obj_ground)) {
     
     ySpeed = 0; 
 }
- /*
+
  if (place_meeting(x + xSpeed, y, obj_ground)) { 
     
     while (!place_meeting(x + sign(xSpeed), y, obj_ground)) {
         x += sign(xSpeed);
     }
-    xSpeed = 0;
+    xSpeed = 0.2;
 }
-*/
 
+/*
+	var _col = place_meeting(x + xSpeed, y, obj_ground);
+	// se colidir grudo em quem colidir
+	if (_col)
+	{
+		//se eu colidir não importando o lado eu paro
+		xSpeed = 0;
+	}
+	*/
 if(y > room_height){
 	game_restart()
 }
@@ -96,26 +109,20 @@ if(y > room_height){
 if(dash && (left or right)) // SE esta apertando o dash e a esquerda ou direita
 	{
 
-		// criando os rastros do player quando da o dash
-		instance_create_layer(x,y,"player",obj_player_rastro);
-		if(sign(xDirection)){ 
-			xSpeed +=10.5;
-			show_debug_message("passou")
-		}else {
-			xSpeed -=10.5;
+		if(!onTheGround) {
+			instance_create_layer(x,y,"player",obj_player_rastro);// criando os rastros do player quando da o dash
+			if(sign(xDirection)){ 
+				xSpeed +=10.5;
+				show_debug_message("passou")
+			}else {
+				xSpeed -=10.5;
+			}
 		}
 	}
 	
 y += ySpeed; // adiciona constantemente o valor armazenado na variavel ySpeed ao y, criando a 'gravidade'
 x += xSpeed; // adiciona constantemente o valor armazenado na variavel xSpeed ao x
 
-	var _col = place_meeting(x + xSpeed, y, obj_ground);
-	// se colidir grudo em quem colidir
-	if (_col)
-	{
-		//se eu colidir não importando o lado eu paro
-		xSpeed = 0;
-	}
 
 
 

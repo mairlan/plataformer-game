@@ -11,6 +11,7 @@
     {"id":{"name":"spr_parede_serra","path":"sprites/spr_parede_serra/spr_parede_serra.yy",},"order":3,},
     {"id":{"name":"rm_level_1","path":"rooms/rm_level_1/rm_level_1.yy",},"order":2,},
     {"id":{"name":"obj_player_rastro","path":"objects/obj_player_rastro/obj_player_rastro.yy",},"order":1,},
+    {"id":{"name":"obj_player_testes","path":"objects/obj_player_testes/obj_player_testes.yy",},"order":3,},
     {"id":{"name":"spr_ground","path":"sprites/spr_ground/spr_ground.yy",},"order":1,},
     {"id":{"name":"obj_key","path":"objects/obj_key/obj_key.yy",},"order":2,},
     {"id":{"name":"spr_walljump","path":"sprites/spr_walljump/spr_walljump.yy",},"order":9,},
