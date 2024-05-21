@@ -19,7 +19,7 @@
     {"id":{"name":"obj_parede_serra","path":"objects/obj_parede_serra/obj_parede_serra.yy",},"order":1,},
     {"id":{"name":"spr_player_walking","path":"sprites/spr_player_walking/spr_player_walking.yy",},"order":8,},
     {"id":{"name":"spr_key","path":"sprites/spr_key/spr_key.yy",},"order":4,},
-    {"id":{"name":"oWall","path":"objects/oWall/oWall.yy",},"order":4,},
+    {"id":{"name":"obj_jump_wall","path":"objects/obj_jump_wall/obj_jump_wall.yy",},"order":4,},
     {"id":{"name":"obj_player","path":"objects/obj_player/obj_player.yy",},"order":0,},
     {"id":{"name":"spr_player","path":"sprites/spr_player/spr_player.yy",},"order":0,},
     {"id":{"name":"rm_test","path":"rooms/rm_test/rm_test.yy",},"order":0,},
