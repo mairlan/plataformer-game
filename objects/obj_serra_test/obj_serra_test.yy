@@ -3,8 +3,8 @@
   "resourceVersion": "1.0",
   "name": "obj_serra_test",
   "spriteId": {
-    "name": "spr_serra_test",
-    "path": "sprites/spr_serra_test/spr_serra_test.yy",
+    "name": "spr_serra",
+    "path": "sprites/spr_serra/spr_serra.yy",
   },
   "solid": false,
   "visible": true,

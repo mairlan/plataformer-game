@@ -4,7 +4,6 @@
   "name": "plataforma",
   "resources": [
     {"id":{"name":"obj_serra_test","path":"objects/obj_serra_test/obj_serra_test.yy",},"order":5,},
-    {"id":{"name":"obj_serra","path":"objects/obj_serra/obj_serra.yy",},"order":2,},
     {"id":{"name":"spr_door","path":"sprites/spr_door/spr_door.yy",},"order":5,},
     {"id":{"name":"spr_vel","path":"sprites/spr_vel/spr_vel.yy",},"order":11,},
     {"id":{"name":"Script1","path":"scripts/Script1/Script1.yy",},"order":0,},
@@ -22,7 +21,6 @@
     {"id":{"name":"spr_serra","path":"sprites/spr_serra/spr_serra.yy",},"order":2,},
     {"id":{"name":"obj_dano","path":"objects/obj_dano/obj_dano.yy",},"order":5,},
     {"id":{"name":"obj_porta","path":"objects/obj_porta/obj_porta.yy",},"order":3,},
-    {"id":{"name":"obj_parede_serra","path":"objects/obj_parede_serra/obj_parede_serra.yy",},"order":1,},
     {"id":{"name":"obj_vel","path":"objects/obj_vel/obj_vel.yy",},"order":4,},
     {"id":{"name":"spr_key","path":"sprites/spr_key/spr_key.yy",},"order":4,},
     {"id":{"name":"obj_jump_wall","path":"objects/obj_jump_wall/obj_jump_wall.yy",},"order":4,},
@@ -47,8 +45,8 @@
     "children": [],
   },
   "RoomOrderNodes": [
-    {"roomId":{"name":"rm_level_2","path":"rooms/rm_level_2/rm_level_2.yy",},},
     {"roomId":{"name":"rm_test","path":"rooms/rm_test/rm_test.yy",},},
+    {"roomId":{"name":"rm_level_2","path":"rooms/rm_level_2/rm_level_2.yy",},},
     {"roomId":{"name":"rm_level_1","path":"rooms/rm_level_1/rm_level_1.yy",},},
   ],
   "Folders": [
