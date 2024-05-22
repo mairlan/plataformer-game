@@ -10,6 +10,8 @@ parede_esq = place_meeting(x-1, y, obj_jump_wall);
 // configurando o meu timer do pulo
 if(chao) 
 {
+	max_velv = 8;
+	grav = .3;
 	carga = 1;
 	timer_pulo = limite_pulo;	
 }else 
@@ -35,8 +37,9 @@ left = keyboard_check(ord("A"));
 right = keyboard_check(ord("D"));
 up = keyboard_check(ord("W"));
 down = keyboard_check(ord("S"));
-jump = keyboard_check_pressed(ord("W"));
-jump_s = keyboard_check_released(ord("W"));
+//down = keyboard_check(ord("F"));
+jump = keyboard_check_pressed(vk_space);
+jump_s = keyboard_check_released(vk_space);
 dash = keyboard_check_pressed(vk_shift);
 
 
@@ -98,7 +101,6 @@ switch(estado)
 				velv = lerp(velv, deslize, acel);
 			}else
 			{
-				//Estou subindo
 				velv += grav;
 			}
 			
@@ -121,8 +123,15 @@ switch(estado)
 			}
 		}else if (!chao) // não estou no chao nem na parede
 		{
-			//
+
 			velv += grav;
+			if(down)
+			{
+				max_velv = 12;
+				grav = 12;
+			}else {
+				grav = .3;
+			}
 		}
 		
 		

@@ -1,12 +1,12 @@
 /// @description Inserir descrição aqui
 // Você pode escrever seu código neste editor
-grav = .3;
-acel_chao = .1;
-acel_ar = .07;
-acel = acel_chao;
-deslize = 2;
+grav = .3; //gravidade
+acel_chao = .1; // aceleração no chão
+acel_ar = .07; // aceleração no ar
+acel = acel_chao; // aceleração
+deslize = 2; // deslizar pra quand estiver na parede, 
 
-//-------------------- velocidades
+//-------------------- velocidades NAO MUDAR NADA AQUI
 velh = 0;
 velv = 0;
 
@@ -15,7 +15,7 @@ max_velh = 6;
 max_velv = 8;
 len = 10;
 
-// bonus para o pulo
+// bonus para o pulo NAO MUDAR NADA AQUI
 limite_pulo = 6;
 timer_pulo = 0;
 
