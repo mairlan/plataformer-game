@@ -6,12 +6,10 @@ chao = place_meeting(x, y+1, obj_ground)
 parede_dir = place_meeting(x+1, y, obj_jump_wall);
 parede_esq = place_meeting(x-1, y, obj_jump_wall);
 
-
+#region timers
 // configurando o meu timer do pulo
-if(chao) 
+if(chao) // se estiver no chao
 {
-	max_velv = 8;
-	grav = .3;
 	carga = 1;
 	timer_pulo = limite_pulo;	
 }else 
@@ -29,22 +27,23 @@ if(parede_dir or parede_esq)
 	if(timer_parede > 0) limite_parede--;
 }
 
+#endregion
 
-
+#region Controles
 var left, right, up, down, jump, jump_s, avanco_h, dash;
 
 left = keyboard_check(ord("A"));
 right = keyboard_check(ord("D"));
 up = keyboard_check(ord("W"));
 down = keyboard_check(ord("S"));
-//down = keyboard_check(ord("F"));
-jump = keyboard_check_pressed(vk_space);
-jump_s = keyboard_check_released(vk_space);
+jump = keyboard_check_pressed(ord("W"));
+jump_s = keyboard_check_released(ord("W"));
 dash = keyboard_check_pressed(vk_shift);
 
-
+#endregion
 // configurando informações da movimentação
 avanco_h = (right - left) * max_velh;
+
 // valor da aceleração
 if(chao) acel = acel_chao;
 else acel = acel_ar;
@@ -87,18 +86,48 @@ switch(estado)
 		break;
 		
 	case state.movendo:
-		
+
 		//Aplicando a movimentação
 		velh = lerp(velh, avanco_h, acel);
+
+		// Fazendo "poeira"
+		if(abs(velh) > max_velh - .5 && chao)
+		{
+			var chace = random(100);
+			if(chace > 95)
+			{
+				for(var i = 0; i < irandom_range(4, 10); i++)
+				{
+					var xx = random_range(x - sprite_width/2, x + sprite_width/2);
+					instance_create_depth(xx, y, depth - 1000, obj_vel);
+				}
+			}
+		}
 		
 		
 		// gravidade e parede
-		if(!chao && (parede_dir or parede_esq or timer_parede))
+		if(chao == false && (parede_dir == true or parede_esq == true or timer_parede == 1))
 		{
 			// não estou no chao, mas estou tocando na parede
-			if(velh > 0) //estou na parede e estou caindo
+			if(velv > 0) //estou na parede e estou caindo
 			{
+				show_debug_message("estou caindo na parede");
+			
 				velv = lerp(velv, deslize, acel);
+				// criando a poeira enquando estou caindo
+				var chace = random(100);
+				if(chace > 80)
+				{
+					for(var i = 0; i < irandom_range(4, 10); i++)
+					{
+						 var onde = parede_dir - parede_esq;
+						 var xx = x + onde * sprite_width/2;
+						 var yy = y + random_range(- sprite_height/2, 0)
+						
+						instance_create_depth(xx, yy, depth - 1000, obj_vel);
+					}
+				}				
+				
 			}else
 			{
 				velv += grav;
@@ -106,19 +135,39 @@ switch(estado)
 			
 			// pulando pelas paredes
 			if(!ultima_parede && jump ) //Estou na parede e tentei pular
-			{
+			{ //parede direita
 				velv = -max_velv 
 				velh = -max_velh
 				xscale = .5;
 				yscale = 1.5;
 				carga = 1;
-			}else if (ultima_parede && jump)
+				
+					// Criando poeira 
+					for(var i = 0; i < irandom_range(4, 10); i++)
+					{
+						 var onde = parede_dir - parede_esq;
+						 var xx = x + sprite_width/2;
+						 var yy = y + random_range(- sprite_height/2, 0)
+						
+						instance_create_depth(xx, yy, depth - 1000, obj_vel);
+					}				
+			}else if (ultima_parede && jump) // parede esquerda
 			{
 				velv = -max_velv 
 				velh = max_velh
 				xscale = .5;
 				yscale = 1.5;
 				carga = 1;
+				
+				// Criando poeira 
+				for(var i = 0; i < irandom_range(4, 10); i++)
+				{
+						var onde = parede_dir - parede_esq;
+						var xx = x - sprite_width/2;
+						var yy = y + random_range(- sprite_height/2, 0)
+						
+					instance_create_depth(xx, yy, depth - 1000, obj_vel);
+				}
 				
 			}
 		}else if (!chao) // não estou no chao nem na parede
@@ -143,6 +192,13 @@ switch(estado)
 			//alterando a escala
 			xscale = .5;
 			yscale = 1.5;
+			// criando a "poeira"
+			for(var i = 0; i < irandom_range(4, 10); i++)
+			{
+				var xx = random_range(x - sprite_width/2, x + sprite_width/2);
+				instance_create_depth(xx, y, depth - 1000, obj_vel);
+			}		
+			
 		}
 		
 		//buffer pulo
@@ -231,7 +287,7 @@ switch(estado)
 }
 
 // debug do estado
-show_debug_message(estado);
+//show_debug_message(estado);
 
 switch (carga)
 {

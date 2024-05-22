@@ -4,7 +4,7 @@ grav = .3; //gravidade
 acel_chao = .1; // aceleração no chão
 acel_ar = .07; // aceleração no ar
 acel = acel_chao; // aceleração
-deslize = 2; // deslizar pra quand estiver na parede, 
+deslize = 2; // deslizar pra quand estiver na parede 
 
 //-------------------- velocidades NAO MUDAR NADA AQUI
 velh = 0;
@@ -52,5 +52,5 @@ enum state {
 
 estado = state.parado;
 
-
+global.porta_aberta = false;
 
