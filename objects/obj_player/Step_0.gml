@@ -5,10 +5,11 @@
 chao = place_meeting(x, y+1, obj_ground)
 parede_dir = place_meeting(x+1, y, obj_jump_wall);
 parede_esq = place_meeting(x-1, y, obj_jump_wall);
+porta = place_meeting(x, y+1, obj_porta);
 
 #region timers
 // configurando o meu timer do pulo
-if(chao) // se estiver no chao
+if(chao or porta) // se estiver no chao
 {
 	carga = 1;
 	timer_pulo = limite_pulo;	
@@ -182,6 +183,9 @@ switch(estado)
 				grav = .3;
 			}
 		}
+		
+		
+
 		
 		
 		//pulando
