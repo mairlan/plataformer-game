@@ -5,6 +5,12 @@
 // variavel para porta aberta ou não
 global.porta_aberta = false;
 
+// checkpoint
+global.xATUAL = 0;
+global.yATUAL = 0;
+
+
+
 #endregion
 
 #region funções
@@ -12,7 +18,11 @@ global.porta_aberta = false;
 function jogo_acaba()
 {
 	global.porta_aberta = false;
+	x = global.xATUAL;
+	y = global.yATUAL;
+	
 	room_restart();
+
 }
 
 

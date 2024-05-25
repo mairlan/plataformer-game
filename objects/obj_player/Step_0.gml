@@ -7,6 +7,11 @@ parede_dir = place_meeting(x+1, y, obj_jump_wall);
 parede_esq = place_meeting(x-1, y, obj_jump_wall);
 porta = place_meeting(x, y+1, obj_porta);
 
+if(keyboard_check_pressed(ord("K")))
+{
+	room_goto_next();
+}
+
 #region timers
 // configurando o meu timer do pulo
 if(chao or porta) // se estiver no chao
